@@ -13,3 +13,10 @@ spring:
         format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+jwt:
+  expiration: 3600000
+  refresh-token-expiration: 604800000
+  secret: d0ce8a7536090d318e1209332b2be4d03efa1b647a701a7701cfa59684a81edb
+logging:
+  level:
+    com.security.chassi.config.JwtRequestFilter: DEBUG
