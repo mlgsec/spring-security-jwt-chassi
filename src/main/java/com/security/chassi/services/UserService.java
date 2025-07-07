@@ -1,5 +1,6 @@
 package com.security.chassi.services;
 
+import com.security.chassi.dtos.UserRequest;
 import com.security.chassi.user.Role;
 import com.security.chassi.user.User;
 import com.security.chassi.repositories.UserRepository;
@@ -21,8 +22,10 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public User saveUser(UserRequest request) {
+        User user = new User();
+        user.setEmail(request.email());
+        user.setPassword(passwordEncoder.encode(request.password()));
         return userRepository.save(user);
     }
 

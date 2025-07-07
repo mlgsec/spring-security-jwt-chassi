@@ -18,22 +18,22 @@ public class RoleController {
         this.roleService = roleService;
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<Role> createRole(@RequestBody Role role) {
-        Role savedRole = roleService.createRole(role);
-        return ResponseEntity.ok(savedRole);
-    }
+//    @PostMapping("/create")
+//    public ResponseEntity<Role> createRole(@RequestBody Role role) {
+//        Role savedRole = roleService.createRole(role);
+//        return ResponseEntity.ok(savedRole);
+//    }
 
-    @GetMapping("/list")
-    public ResponseEntity<List<Role>> getAllRoles() {
-        List<Role> roles = roleService.getAllRoles();
-        return ResponseEntity.ok(roles);
-    }
-
-    @DeleteMapping("/list")
-    public ResponseEntity<HttpRequest> deleteRole(Long id) {
-        roleService.deleteById(id);
-        return ResponseEntity.noContent().build();
-    }
+//    @GetMapping("/list")
+//    public ResponseEntity<List<Role>> getAllRoles() {
+//        List<Role> roles = roleService.getAllRoles();
+//        return ResponseEntity.ok(roles);
+//    }
+//
+//    @DeleteMapping("/list")
+//    public ResponseEntity<HttpRequest> deleteRole(Long id) {
+//        roleService.deleteById(id);
+//        return ResponseEntity.noContent().build();
+//    }
 
 }

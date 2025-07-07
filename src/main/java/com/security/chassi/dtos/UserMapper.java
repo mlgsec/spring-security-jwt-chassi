@@ -4,7 +4,7 @@ import com.security.chassi.user.User;
 
 public class UserMapper {
 
-    public static UserDto toDto(User user) {
-        return new UserDto(user.getId(), user.getEmail());
+    public static UserResponse toDto(User user) {
+        return new UserResponse(user.getId(), user.getEmail());
     }
 }
