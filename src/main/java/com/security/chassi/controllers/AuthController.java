@@ -5,12 +5,17 @@ import com.security.chassi.dtos.*;
 import com.security.chassi.services.AuthService;
 import com.security.chassi.services.RefreshTokenService;
 import com.security.chassi.services.UserService;
+import com.security.chassi.user.Role;
 import com.security.chassi.user.User;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -50,5 +55,16 @@ public class AuthController {
         User user = userService.assignRoleToUser(request.email(), request.roleName());
         return ResponseEntity.ok(user);
     }
+
+    @GetMapping("/me/roles")
+    public ResponseEntity<Set<String>> getMyRoles(Authentication authentication) {
+        User user = userService.findByEmail(authentication.getName());
+        Set<String> roles = user.getRoles()
+                .stream()
+                .map(Role::getName)
+                .collect(Collectors.toSet());
+        return ResponseEntity.ok(roles);
+    }
+
 
 }
