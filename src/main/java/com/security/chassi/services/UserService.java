@@ -23,11 +23,16 @@ public class UserService {
     }
 
     public User saveUser(UserRequest request) {
+        if (userRepository.findByEmail(request.email()).isPresent()) {
+            throw new RuntimeException("Email já cadastrado");
+        }
+
         User user = new User();
         user.setEmail(request.email());
         user.setPassword(passwordEncoder.encode(request.password()));
         return userRepository.save(user);
     }
+
 
     public User assignRoleToUser(String email, String roleName) {
         User user = userRepository.findByEmail(email)
