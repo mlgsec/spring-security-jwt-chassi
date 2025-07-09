@@ -4,6 +4,8 @@ import com.security.chassi.repositories.RoleRepository;
 import com.security.chassi.user.Role;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RoleService {
 
@@ -18,4 +20,20 @@ public class RoleService {
                 () -> new RuntimeException("Permissão não exitente.")
         );
     }
+
+    public List<Role> getAllRoles() {
+        return repository.findAll();
+    }
+
+    public void deleteById(Long id) {
+        if (!repository.existsById(id)) {
+            throw new RuntimeException("Role com ID " + id + " não encontrada.");
+        }
+        repository.deleteById(id);
+    }
+
+    public Role createRole(Role role) {
+        return repository.save(role);
+    }
+
 }

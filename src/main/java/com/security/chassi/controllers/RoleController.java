@@ -2,7 +2,6 @@ package com.security.chassi.controllers;
 
 import com.security.chassi.services.RoleService;
 import com.security.chassi.user.Role;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,22 +17,23 @@ public class RoleController {
         this.roleService = roleService;
     }
 
-//    @PostMapping("/create")
-//    public ResponseEntity<Role> createRole(@RequestBody Role role) {
-//        Role savedRole = roleService.createRole(role);
-//        return ResponseEntity.ok(savedRole);
-//    }
+    @PostMapping("/create")
+    public ResponseEntity<Role> createRole(@RequestBody Role role) {
+        Role savedRole = roleService.createRole(role);
+        return ResponseEntity.ok(savedRole);
+    }
 
-//    @GetMapping("/list")
-//    public ResponseEntity<List<Role>> getAllRoles() {
-//        List<Role> roles = roleService.getAllRoles();
-//        return ResponseEntity.ok(roles);
-//    }
-//
-//    @DeleteMapping("/list")
-//    public ResponseEntity<HttpRequest> deleteRole(Long id) {
-//        roleService.deleteById(id);
-//        return ResponseEntity.noContent().build();
-//    }
+    @GetMapping("/list")
+    public ResponseEntity<List<Role>> getAllRoles() {
+        List<Role> roles = roleService.getAllRoles();
+        return ResponseEntity.ok(roles);
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteRole(@PathVariable Long id) {
+        roleService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }
