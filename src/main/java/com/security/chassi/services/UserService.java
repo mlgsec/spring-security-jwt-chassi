@@ -1,6 +1,7 @@
 package com.security.chassi.services;
 
 import com.security.chassi.dtos.UserRequest;
+import com.security.chassi.repositories.RoleRepository;
 import com.security.chassi.user.Role;
 import com.security.chassi.user.User;
 import com.security.chassi.repositories.UserRepository;
@@ -8,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -15,11 +17,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
+    private final RoleRepository roleRepository;
 
-    public UserService(UserRepository userRepository, RoleService roleService, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, RoleService roleService, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
     }
 
     public User saveUser(UserRequest request) {
@@ -27,9 +31,13 @@ public class UserService {
             throw new RuntimeException("Email já cadastrado");
         }
 
+        Role roleUser = roleRepository.findByName("USER")
+                .orElseThrow(() -> new RuntimeException("Role 'USER' não encontrada"));
+
         User user = new User();
         user.setEmail(request.email());
         user.setPassword(passwordEncoder.encode(request.password()));
+        user.setRoles(Set.of(roleUser));
         return userRepository.save(user);
     }
 
