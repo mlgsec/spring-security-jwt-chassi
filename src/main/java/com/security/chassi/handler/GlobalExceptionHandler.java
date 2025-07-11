@@ -22,26 +22,13 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(TokenExpiredException.class)
-    public ResponseEntity<ErrorResponseDTO> handleTokenExpired(TokenExpiredException ex) {
-        ErrorResponseDTO error = buildErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
-    }
-
-    @ExceptionHandler(InvalidTokenException.class)
-    public ResponseEntity<ErrorResponseDTO> handleInvalidToken(InvalidTokenException ex) {
-        ErrorResponseDTO error = buildErrorResponse(HttpStatus.FORBIDDEN, ex.getMessage());
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponseDTO> handleGenericException(Exception ex) {
-        ErrorResponseDTO error = buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno no servidor");
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
-    }
-
-    @ExceptionHandler(InvalidRefreshTokenException.class)
-    public ResponseEntity<ErrorResponseDTO> handleInvalidRefreshToken(InvalidRefreshTokenException ex) {
+    @ExceptionHandler({
+            TokenExpiredException.class,
+            InvalidTokenException.class,
+            InvalidRefreshTokenException.class,
+            InvalidCredentialsException.class
+    })
+    public ResponseEntity<ErrorResponseDTO> handleUnauthorized(RuntimeException ex) {
         ErrorResponseDTO error = buildErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
@@ -52,13 +39,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
-
-    @ExceptionHandler(InvalidCredentialsException.class)
-    public ResponseEntity<ErrorResponseDTO> handleInvalidCredentials(InvalidCredentialsException ex) {
-        ErrorResponseDTO error = buildErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponseDTO> handleGenericException(Exception ex) {
+        ErrorResponseDTO error = buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno no servidor");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
-
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
@@ -97,5 +82,4 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 message
         );
     }
-
 }
