@@ -2,8 +2,8 @@ package com.security.chassi.services;
 
 import com.security.chassi.dtos.UserRequest;
 import com.security.chassi.repositories.RoleRepository;
-import com.security.chassi.user.Role;
-import com.security.chassi.user.User;
+import com.security.chassi.entities.Role;
+import com.security.chassi.entities.User;
 import com.security.chassi.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

@@ -2,7 +2,8 @@ package com.security.chassi.services;
 
 import com.security.chassi.config.JwtUtil;
 import com.security.chassi.dtos.*;
-import com.security.chassi.user.User;
+import com.security.chassi.entities.RefreshToken;
+import com.security.chassi.entities.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -45,29 +46,20 @@ public class AuthService {
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(user.getId());
 
         JwtResponse jwtResponse = new JwtResponse(jwt, refreshToken.getToken());
-        return ResponseEntity.ok(jwtResponse); // Agora estamos retornando o tipo correto
+        return ResponseEntity.ok(jwtResponse);
     }
-
 
     public ResponseEntity<JwtResponse> refreshToken(TokenRefreshRequest request) {
         String requestRefreshToken = request.getRefreshToken();
 
         return refreshTokenService.findByToken(requestRefreshToken)
                 .map(refreshToken -> {
-                    // Verificando a expiração do refresh token
                     refreshTokenService.verifyExpiration(refreshToken);
-
-                    // Obtendo o usuário corretamente
-                    User user = refreshToken.getUser(); // Certifique-se de que o tipo de user é o esperado
-
-                    // Gerando o novo JWT
+                    User user = refreshToken.getUser();
                     String token = jwtUtil.generateToken(user.getEmail());
-
-                    // Criando a resposta com o novo token e o refresh token original
                     JwtResponse jwtResponse = new JwtResponse(token, requestRefreshToken);
-                    return ResponseEntity.ok(jwtResponse);  // Retornando a resposta com tipo específico
+                    return ResponseEntity.ok(jwtResponse);
                 })
                 .orElseThrow(() -> new RuntimeException("Refresh token is not in database!"));
     }
-
 }

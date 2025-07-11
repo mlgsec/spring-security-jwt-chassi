@@ -1,11 +1,16 @@
 package com.security.chassi.config;
 
+import com.security.chassi.exceptions.InvalidTokenException;
+import com.security.chassi.exceptions.TokenExpiredException;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.security.SignatureException;
 
 import java.security.Key;
 import java.util.Date;
@@ -43,9 +48,19 @@ public class JwtUtil {
 
     private Claims extractAllClaims(String token) {
         try {
-            return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Token JWT inválido ou malformado", e);
+            return Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (ExpiredJwtException ex) {
+            throw new TokenExpiredException("Token JWT expirado. Faça login novamente.");
+        } catch (SignatureException ex) {
+            throw new InvalidTokenException("Assinatura do token inválida.");
+        } catch (JwtException ex) {
+            throw new InvalidTokenException("Token JWT inválido.");
+        } catch (Exception ex) {
+            throw new InvalidTokenException("Erro ao processar o token JWT.");
         }
     }
 

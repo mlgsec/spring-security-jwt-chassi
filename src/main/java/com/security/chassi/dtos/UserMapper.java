@@ -1,6 +1,6 @@
 package com.security.chassi.dtos;
 
-import com.security.chassi.user.User;
+import com.security.chassi.entities.User;
 
 public class UserMapper {
 

@@ -1,4 +1,4 @@
-    package com.security.chassi.user;
+    package com.security.chassi.entities;
 
     import jakarta.persistence.*;
     import lombok.Data;

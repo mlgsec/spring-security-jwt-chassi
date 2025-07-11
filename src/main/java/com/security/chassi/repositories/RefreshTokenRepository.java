@@ -1,7 +1,7 @@
 package com.security.chassi.repositories;
 
-import com.security.chassi.services.RefreshToken;
-import com.security.chassi.user.User;
+import com.security.chassi.entities.RefreshToken;
+import com.security.chassi.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

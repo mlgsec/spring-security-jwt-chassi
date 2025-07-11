@@ -1,6 +1,6 @@
 package com.security.chassi.services;
 
-import com.security.chassi.user.User;
+import com.security.chassi.entities.User;
 import com.security.chassi.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

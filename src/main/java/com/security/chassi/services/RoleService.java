@@ -1,7 +1,7 @@
 package com.security.chassi.services;
 
 import com.security.chassi.repositories.RoleRepository;
-import com.security.chassi.user.Role;
+import com.security.chassi.entities.Role;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

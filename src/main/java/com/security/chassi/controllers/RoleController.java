@@ -1,7 +1,7 @@
 package com.security.chassi.controllers;
 
 import com.security.chassi.services.RoleService;
-import com.security.chassi.user.Role;
+import com.security.chassi.entities.Role;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -36,15 +36,12 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(HttpMethod.POST, "/api/auth/register", "/api/auth/login",
-                                "/api/auth/refresh-token").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/roles/create").hasRole("ADMIN")
-
+                        "/api/auth/refresh-token").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/roles/create", "api/auth/assign-role").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/roles/list").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/api/roles/{id}").hasRole("ADMIN")
-
-
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .anyRequest().authenticated()
+                .anyRequest().authenticated()
                 )
 
                 .sessionManagement(session -> session

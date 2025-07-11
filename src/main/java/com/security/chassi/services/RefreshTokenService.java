@@ -1,5 +1,7 @@
 package com.security.chassi.services;
 
+import com.security.chassi.entities.RefreshToken;
+import com.security.chassi.exceptions.TokenExpiredException;
 import com.security.chassi.repositories.RefreshTokenRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -38,8 +40,7 @@ public class RefreshTokenService {
     public void verifyExpiration(RefreshToken token) {
         if (token.getExpiryDate().before(new Date())) {
             refreshTokenRepository.delete(token);
-            throw new RuntimeException("Refresh token expired");
-        }
+            throw new TokenExpiredException("Refresh token expirado. Faça login novamente.");        }
     }
 
     public void deleteByUserId(Long userId) {

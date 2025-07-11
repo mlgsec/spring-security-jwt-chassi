@@ -1,6 +1,6 @@
 package com.security.chassi.repositories;
 
-import com.security.chassi.user.User;
+import com.security.chassi.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
