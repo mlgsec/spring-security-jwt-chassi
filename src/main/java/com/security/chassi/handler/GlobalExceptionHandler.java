@@ -2,6 +2,7 @@ package com.security.chassi.handler;
 
 import com.security.chassi.dtos.ErrorResponseDTO;
 import com.security.chassi.dtos.ValidationErrorResponseDTO;
+import com.security.chassi.exceptions.InvalidCredentialsException;
 import com.security.chassi.exceptions.InvalidTokenException;
 import com.security.chassi.exceptions.TokenExpiredException;
 import lombok.NonNull;
@@ -40,6 +41,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorResponseDTO error = buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno no servidor");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ErrorResponseDTO> handleInvalidCredentials(InvalidCredentialsException ex) {
+        ErrorResponseDTO error = buildErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    }
+
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(

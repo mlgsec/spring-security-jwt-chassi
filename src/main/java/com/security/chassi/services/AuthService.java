@@ -4,8 +4,10 @@ import com.security.chassi.config.JwtUtil;
 import com.security.chassi.dtos.*;
 import com.security.chassi.entities.RefreshToken;
 import com.security.chassi.entities.User;
+import com.security.chassi.exceptions.InvalidCredentialsException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -33,9 +35,13 @@ public class AuthService {
     }
 
     public ResponseEntity<JwtResponse> getToken(AuthenticationRequest authenticationRequest) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword())
-        );
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword())
+            );
+        } catch (BadCredentialsException ex) {
+            throw new InvalidCredentialsException("Usuário ou senha inválidos");
+        }
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
 
@@ -48,6 +54,7 @@ public class AuthService {
         JwtResponse jwtResponse = new JwtResponse(jwt, refreshToken.getToken());
         return ResponseEntity.ok(jwtResponse);
     }
+
 
     public ResponseEntity<JwtResponse> refreshToken(TokenRefreshRequest request) {
         String requestRefreshToken = request.getRefreshToken();
