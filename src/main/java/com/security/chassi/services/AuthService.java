@@ -5,6 +5,7 @@ import com.security.chassi.dtos.*;
 import com.security.chassi.entities.RefreshToken;
 import com.security.chassi.entities.User;
 import com.security.chassi.exceptions.InvalidCredentialsException;
+import com.security.chassi.exceptions.InvalidRefreshTokenException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -67,6 +68,6 @@ public class AuthService {
                     JwtResponse jwtResponse = new JwtResponse(token, requestRefreshToken);
                     return ResponseEntity.ok(jwtResponse);
                 })
-                .orElseThrow(() -> new RuntimeException("Refresh token is not in database!"));
+                .orElseThrow(() -> new InvalidRefreshTokenException("Refresh token inválido ou não registrado."));
     }
 }

@@ -1,6 +1,7 @@
 package com.security.chassi.services;
 
 import com.security.chassi.dtos.UserRequest;
+import com.security.chassi.exceptions.EmailAlreadyExistsException;
 import com.security.chassi.repositories.RoleRepository;
 import com.security.chassi.entities.Role;
 import com.security.chassi.entities.User;
@@ -28,7 +29,7 @@ public class UserService {
 
     public User saveUser(UserRequest request) {
         if (userRepository.findByEmail(request.email()).isPresent()) {
-            throw new RuntimeException("Email já cadastrado");
+            throw new EmailAlreadyExistsException("Email já está sendo utilizado.");
         }
 
         Role roleUser = roleRepository.findByName("USER")
