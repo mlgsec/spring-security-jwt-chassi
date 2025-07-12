@@ -2,7 +2,6 @@ package com.security.chassi.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,8 +14,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(length = 150, nullable = false, unique = true)
     private String email;
+
+    @Column(length = 255, nullable = false)
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -24,5 +25,4 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
-
 }
