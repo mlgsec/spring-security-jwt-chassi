@@ -32,7 +32,7 @@ public class UserService {
             throw new EmailAlreadyExistsException("Email já está sendo utilizado.");
         }
 
-        Role roleUser = roleRepository.findByName("USER")
+        Role roleUser = roleRepository.findByName("ROLE_USER")
                 .orElseThrow(() -> new RuntimeException("Role 'USER' não encontrada"));
 
         User user = new User();
